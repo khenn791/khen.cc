@@ -117,8 +117,9 @@
           body: formData,
         });
         const data = await response.json();
-        if (response.ok && data.url) {
-          document.getElementById("result").innerHTML = `File uploaded! <a href="${data.url}" target="_blank">Click to view raw</a>`;
+        if (response.ok && data.filename) {
+          const rawUrl = `${window.location.origin}/raw/${data.filename}`;
+          document.getElementById("result").innerHTML = `File uploaded! <a href="${rawUrl}" target="_blank">Click to view raw</a>`;
         } else {
           document.getElementById("result").innerHTML = `Error: ${data.message || "Upload failed"}`;
         }
