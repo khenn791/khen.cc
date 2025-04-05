@@ -101,8 +101,7 @@
         document.getElementById("result").innerHTML = "Please select a file!";
         return;
       }
-      // Kiểm tra dung lượng file (5MB = 5 * 1024 * 1024 bytes)
-      const maxSize = 5 * 1024 * 1024;
+      const maxSize = 5 * 1024 * 1024; // 5MB
       if (file.size > maxSize) {
         document.getElementById("result").innerHTML = "File too large! Max size is 5MB.";
         return;
@@ -117,14 +116,20 @@
           method: "POST",
           body: formData,
         });
-        const data = await response.json();
-        if (data.url) {
+        const text = await response.text(); // Lấy text để debug
+        let data;
+        try {
+          data = JSON.parse(text); // Thử parse JSON
+        } catch {
+          throw new Error("Invalid response: " + text);
+        }
+        if (response.ok && data.url) {
           document.getElementById("result").innerHTML = `File uploaded! <a href="${data.url}" target="_blank">Click to view raw</a>`;
         } else {
-          document.getElementById("result").innerHTML = `Upload failed: ${data.message || "Unknown error"}`;
+          throw new Error(data.message || "Unknown error");
         }
       } catch (error) {
-        document.getElementById("result").innerHTML = "Error: Could not upload file!";
+        document.getElementById("result").innerHTML = `Error: ${error.message}`;
       }
     };
   </script>
