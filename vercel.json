@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/raw/:filename",
+      "destination": "/api/raw/filename.js"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
