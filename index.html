@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Tải Lên File</title>
+  <title>Upload File</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta charset="UTF-8">
   <style>
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
@@ -21,7 +20,7 @@
       border-radius: 15px;
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
       width: 100%;
-      max-width: 500px;
+      max-width: 450px;
       text-align: center;
       transition: transform 0.3s ease;
     }
@@ -34,62 +33,18 @@
       margin-bottom: 25px;
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     }
-    .drop-area {
+    input[type="file"] {
+      display: block;
+      margin: 0 auto 20px;
+      padding: 12px;
+      width: 100%;
       border: 2px dashed #3498db;
       border-radius: 8px;
-      padding: 25px;
       background: #f9f9f9;
-      margin-bottom: 20px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    .drop-area.highlight {
-      background: #e3f2fd;
-      border-color: #1e88e5;
-    }
-    .drop-area p {
-      font-size: 16px;
-      color: #555;
-      margin: 0;
-    }
-    .file-input {
-      display: none;
-    }
-    .or-separator {
-      margin: 15px 0;
-      position: relative;
-      text-align: center;
-    }
-    .or-separator:before, .or-separator:after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      width: 40%;
-      height: 1px;
-      background: #ddd;
-    }
-    .or-separator:before {
-      left: 0;
-    }
-    .or-separator:after {
-      right: 0;
-    }
-    .browse-btn {
-      display: inline-block;
-      background: linear-gradient(90deg, #1e90ff, #00b4db);
-      color: white;
-      padding: 8px 20px;
-      border-radius: 5px;
       font-size: 14px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-top: 10px;
+      color: #555;
     }
-    .browse-btn:hover {
-      background: linear-gradient(90deg, #00b4db, #1e90ff);
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    }
-    .upload-btn {
+    button {
       background: linear-gradient(90deg, #1e90ff, #00b4db);
       color: white;
       padding: 12px 25px;
@@ -98,107 +53,30 @@
       cursor: pointer;
       font-size: 16px;
       width: 100%;
-      margin-top: 15px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       transition: all 0.3s ease;
     }
-    .upload-btn:hover {
+    button:hover {
       background: linear-gradient(90deg, #00b4db, #1e90ff);
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
       transform: scale(1.02);
     }
-    .upload-btn:disabled {
-      background: #cccccc;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-    .file-preview {
-      margin: 15px 0;
-      text-align: left;
-      display: none;
-    }
-    .file-info {
-      background: #f2f2f2;
-      padding: 10px;
-      border-radius: 5px;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .file-info span {
+    #result {
+      margin-top: 25px;
       font-size: 14px;
       color: #333;
-      word-break: break-all;
-    }
-    .remove-btn {
-      background: #e74c3c;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 14px;
-    }
-    .remove-btn:hover {
-      background: #c0392b;
-    }
-    .progress-container {
-      margin-top: 15px;
-      display: none;
-    }
-    .progress-bar {
-      height: 10px;
-      background: #e0e0e0;
-      border-radius: 5px;
-      overflow: hidden;
-      margin-bottom: 5px;
-    }
-    .progress {
-      height: 100%;
-      background: linear-gradient(90deg, #1e90ff, #00b4db);
-      width: 0%;
-      transition: width 0.3s ease;
-    }
-    .progress-text {
-      font-size: 12px;
-      color: #555;
-      text-align: right;
-    }
-    .alert {
-      padding: 12px;
-      border-radius: 5px;
-      margin-top: 15px;
-      font-size: 14px;
-      display: none;
-    }
-    .alert-success {
-      background: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
-    }
-    .alert-error {
-      background: #f8d7da;
-      color: #721c24;
-      border: 1px solid #f5c6cb;
-    }
-    .result {
-      margin-top: 15px;
       word-wrap: break-word;
+      padding: 10px;
+      background: #ecf0f1;
+      border-radius: 5px;
     }
-    .result a {
+    #result a {
       color: #e74c3c;
       font-weight: bold;
       text-decoration: none;
       transition: color 0.3s ease;
     }
-    .result a:hover {
+    #result a:hover {
       color: #c0392b;
       text-decoration: underline;
     }
@@ -206,309 +84,49 @@
 </head>
 <body>
   <div class="container">
-    <h1>Tải Lên File</h1>
-    <form id="uploadForm">
-      <div class="drop-area" id="dropArea">
-        <p>Kéo & thả file vào đây</p>
-        <div class="or-separator">hoặc</div>
-        <label class="browse-btn" for="fileInput">Chọn file</label>
-      </div>
-      <input type="file" name="file" id="fileInput" class="file-input" accept=".txt,.jpg,.png,.pdf,.lua" multiple />
-      
-      <div class="file-preview" id="filePreview"></div>
-      
-      <div class="progress-container" id="progressContainer">
-        <div class="progress-bar">
-          <div class="progress" id="progressBar"></div>
-        </div>
-        <div class="progress-text" id="progressText">0%</div>
-      </div>
-      
-      <button type="submit" class="upload-btn" id="uploadBtn" disabled>Tải lên</button>
-      
-      <div class="alert alert-success" id="successAlert"></div>
-      <div class="alert alert-error" id="errorAlert"></div>
-      
-      <div class="result" id="result"></div>
+    <h1>Upload File</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <input type="file" name="file" id="fileInput" accept=".txt,.jpg,.png,.pdf,.lua" />
+      <button type="submit">Upload</button>
     </form>
+    <p id="result"></p>
   </div>
 
   <script>
-    // Biến lưu trữ các file được chọn
-    let selectedFiles = [];
-    
-    // Các phần tử DOM
-    const dropArea = document.getElementById('dropArea');
-    const fileInput = document.getElementById('fileInput');
-    const filePreview = document.getElementById('filePreview');
-    const uploadBtn = document.getElementById('uploadBtn');
-    const progressContainer = document.getElementById('progressContainer');
-    const progressBar = document.getElementById('progressBar');
-    const progressText = document.getElementById('progressText');
-    const successAlert = document.getElementById('successAlert');
-    const errorAlert = document.getElementById('errorAlert');
-    const resultDiv = document.getElementById('result');
-    
-    // Ngăn mặc định hành vi kéo thả
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-      dropArea.addEventListener(eventName, preventDefaults, false);
-      document.body.addEventListener(eventName, preventDefaults, false);
-    });
-    
-    function preventDefaults(e) {
+    document.getElementById("uploadForm").onsubmit = async (e) => {
       e.preventDefault();
-      e.stopPropagation();
-    }
-    
-    // Đánh dấu khi kéo file vào khu vực
-    ['dragenter', 'dragover'].forEach(eventName => {
-      dropArea.addEventListener(eventName, highlight, false);
-    });
-    
-    ['dragleave', 'drop'].forEach(eventName => {
-      dropArea.addEventListener(eventName, unhighlight, false);
-    });
-    
-    function highlight() {
-      dropArea.classList.add('highlight');
-    }
-    
-    function unhighlight() {
-      dropArea.classList.remove('highlight');
-    }
-    
-    // Xử lý kéo thả file
-    dropArea.addEventListener('drop', handleDrop, false);
-    
-    function handleDrop(e) {
-      const dt = e.dataTransfer;
-      const files = dt.files;
-      handleFiles(files);
-    }
-    
-    // Xử lý khi chọn file qua input
-    fileInput.addEventListener('change', function() {
-      handleFiles(this.files);
-    });
-    
-    function handleFiles(files) {
-      if (files.length === 0) return;
-      
-      // Reset các thông báo
-      hideAlerts();
-      
-      // Xử lý từng file
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        
-        // Kiểm tra kích thước file (5MB)
-        const maxSize = 5 * 1024 * 1024;
-        if (file.size > maxSize) {
-          showError(`File "${file.name}" quá lớn! Kích thước tối đa là 5MB.`);
-          continue;
-        }
-        
-        // Kiểm tra định dạng file (ngoài những gì đã định nghĩa trong accept)
-        const allowedTypes = ['.txt', '.jpg', '.png', '.pdf', '.lua'];
-        const fileExt = '.' + file.name.split('.').pop().toLowerCase();
-        if (!allowedTypes.includes(fileExt)) {
-          showError(`File "${file.name}" không được hỗ trợ! Chỉ chấp nhận file ${allowedTypes.join(', ')}.`);
-          continue;
-        }
-        
-        // Thêm file vào danh sách
-        selectedFiles.push(file);
-        
-        // Hiển thị thông tin file
-        displayFileInfo(file);
-      }
-      
-      // Kích hoạt nút upload nếu có file hợp lệ
-      updateUploadButton();
-    }
-    
-    function displayFileInfo(file) {
-      // Hiển thị khu vực preview
-      filePreview.style.display = 'block';
-      
-      // Tạo phần tử hiển thị thông tin file
-      const fileInfo = document.createElement('div');
-      fileInfo.className = 'file-info';
-      
-      // Format kích thước file
-      const fileSize = formatFileSize(file.size);
-      
-      fileInfo.innerHTML = `
-        <span>${file.name} (${fileSize})</span>
-        <button type="button" class="remove-btn" data-filename="${file.name}">×</button>
-      `;
-      
-      filePreview.appendChild(fileInfo);
-      
-      // Xử lý nút xóa
-      const removeBtn = fileInfo.querySelector('.remove-btn');
-      removeBtn.addEventListener('click', function() {
-        const filename = this.getAttribute('data-filename');
-        removeFile(filename, fileInfo);
-      });
-    }
-    
-    function removeFile(filename, element) {
-      // Xóa file khỏi danh sách
-      selectedFiles = selectedFiles.filter(file => file.name !== filename);
-      
-      // Xóa phần tử hiển thị
-      element.remove();
-      
-      // Ẩn khu vực preview nếu không còn file nào
-      if (selectedFiles.length === 0) {
-        filePreview.style.display = 'none';
-      }
-      
-      // Cập nhật trạng thái nút upload
-      updateUploadButton();
-    }
-    
-    function updateUploadButton() {
-      uploadBtn.disabled = selectedFiles.length === 0;
-    }
-    
-    function formatFileSize(bytes) {
-      if (bytes === 0) return '0 Bytes';
-      
-      const k = 1024;
-      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-      const i = Math.floor(Math.log(bytes) / Math.log(k));
-      
-      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-    }
-    
-    // Xử lý khi submit form
-    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      if (selectedFiles.length === 0) {
-        showError('Vui lòng chọn ít nhất một file để tải lên!');
+      const fileInput = document.getElementById("fileInput");
+      const file = fileInput.files[0];
+      if (!file) {
+        document.getElementById("result").innerHTML = "Please select a file!";
         return;
       }
-      
-      // Hiển thị thanh tiến trình
-      showProgress();
-      
-      // Ẩn các thông báo cũ
-      hideAlerts();
-      
-      // Tạo FormData và thêm tất cả file
+      // Kiểm tra dung lượng file (5MB = 5 * 1024 * 1024 bytes)
+      const maxSize = 5 * 1024 * 1024;
+      if (file.size > maxSize) {
+        document.getElementById("result").innerHTML = "File too large! Max size is 5MB.";
+        return;
+      }
+
       const formData = new FormData();
-      selectedFiles.forEach(file => {
-        formData.append('file', file);
-      });
-      
+      formData.append("file", file);
+
+      document.getElementById("result").innerHTML = "Uploading...";
       try {
-        // Sử dụng XMLHttpRequest để có thể theo dõi tiến trình
-        const xhr = new XMLHttpRequest();
-        
-        xhr.upload.addEventListener('progress', function(e) {
-          if (e.lengthComputable) {
-            const percentComplete = Math.round((e.loaded / e.total) * 100);
-            updateProgress(percentComplete);
-          }
+        const response = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
         });
-        
-        xhr.addEventListener('load', function() {
-          if (xhr.status >= 200 && xhr.status < 300) {
-            const response = JSON.parse(xhr.responseText);
-            handleUploadSuccess(response);
-          } else {
-            handleUploadError(xhr.statusText);
-          }
-        });
-        
-        xhr.addEventListener('error', function() {
-          handleUploadError('Lỗi kết nối mạng!');
-        });
-        
-        xhr.addEventListener('abort', function() {
-          handleUploadError('Tải lên bị hủy!');
-        });
-        
-        xhr.open('POST', '/api/upload');
-        xhr.send(formData);
+        const data = await response.json();
+        if (data.url) {
+          document.getElementById("result").innerHTML = `File uploaded! <a href="${data.url}" target="_blank">Click to view raw</a>`;
+        } else {
+          document.getElementById("result").innerHTML = `Upload failed: ${data.message || "Unknown error"}`;
+        }
       } catch (error) {
-        handleUploadError(error.message || 'Lỗi không xác định!');
+        document.getElementById("result").innerHTML = "Error: Could not upload file!";
       }
-    });
-    
-    function showProgress() {
-      progressContainer.style.display = 'block';
-      updateProgress(0);
-      uploadBtn.disabled = true;
-    }
-    
-    function updateProgress(percent) {
-      progressBar.style.width = percent + '%';
-      progressText.textContent = percent + '%';
-    }
-    
-    function hideProgress() {
-      progressContainer.style.display = 'none';
-      updateProgress(0);
-      updateUploadButton();
-    }
-    
-    function handleUploadSuccess(response) {
-      hideProgress();
-      
-      if (response.url) {
-        showSuccess('Tải lên thành công!');
-        resultDiv.innerHTML = `<a href="${response.url}" target="_blank">${response.url}</a>`;
-        
-        // Reset form sau khi tải lên thành công
-        resetForm();
-      } else {
-        handleUploadError(response.message || 'Lỗi không xác định!');
-      }
-    }
-    
-    function handleUploadError(message) {
-      hideProgress();
-      showError('Tải lên thất bại: ' + message);
-      resultDiv.innerHTML = '';
-    }
-    
-    function resetForm() {
-      selectedFiles = [];
-      filePreview.innerHTML = '';
-      filePreview.style.display = 'none';
-      fileInput.value = '';
-      updateUploadButton();
-    }
-    
-    function showSuccess(message) {
-      successAlert.textContent = message;
-      successAlert.style.display = 'block';
-      setTimeout(() => {
-        successAlert.style.display = 'none';
-      }, 5000);
-    }
-    
-    function showError(message) {
-      errorAlert.textContent = message;
-      errorAlert.style.display = 'block';
-      setTimeout(() => {
-        errorAlert.style.display = 'none';
-      }, 5000);
-    }
-    
-    function hideAlerts() {
-      successAlert.style.display = 'none';
-      errorAlert.style.display = 'none';
-    }
-    
-    // Kích hoạt nút chọn file khi nhấp vào khu vực kéo thả
-    dropArea.addEventListener('click', function() {
-      fileInput.click();
-    });
+    };
   </script>
 </body>
-  </html>
+</html>
